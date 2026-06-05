@@ -20,6 +20,7 @@ public class SudokuModel {
             }
             tablero.add(filaLista);
         }
+
     }
 
     public void generarTablero() {
@@ -77,5 +78,8 @@ public class SudokuModel {
         }
 
         return true; // pasó todas las revisiones, es válido
+    }
+    public ArrayList<ArrayList<Integer>> getTablero() {
+        return tablero;
     }
 }
