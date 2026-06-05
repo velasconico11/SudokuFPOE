@@ -82,4 +82,12 @@ public class SudokuModel {
     public ArrayList<ArrayList<Integer>> getTablero() {
         return tablero;
     }
+    // limpio el tablero antes de empezar uno nuevo
+    public void limpiarTablero() {
+        for (int fila = 0; fila < 6; fila++) {
+            for (int col = 0; col < 6; col++) {
+                tablero.get(fila).set(col, 0);
+            }
+        }
+    }
 }

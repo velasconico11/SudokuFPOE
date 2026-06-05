@@ -7,13 +7,26 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import org.example.sudokufpoe.model.SudokuModel;
+import javafx.scene.control.Button;
 
 public class SudokuController {
 
     @FXML
     private GridPane gridSudoku;
+    @FXML
+    private Button btnJugar;
+
+    @FXML
+    public void handleJugar() {
+        modelo.limpiarTablero();
+        modelo.generarTablero();
+        mostrarTablero();
+    }
 
     private TextField[][] celdas = new TextField[6][6];
+    // aquí conecto el modelo con el controlador
+    private SudokuModel modelo = new SudokuModel();
 
     @FXML
     public void initialize() {
@@ -67,4 +80,19 @@ public class SudokuController {
             return null; // Rechaza cualquier otra entrada (letras, otros números, etc.)
         }));
     }
+
+    private void mostrarTablero() {
+        for (int fila = 0; fila < 6; fila++) {
+            for (int col = 0; col < 6; col++) {
+                int valor = modelo.getTablero().get(fila).get(col);
+                if (valor != 0) {
+                    celdas[fila][col].setText(String.valueOf(valor));
+                } else {
+                    celdas[fila][col].setText("");
+                }
+            }
+        }
+    }
 }
+
+
