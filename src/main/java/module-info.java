@@ -5,4 +5,6 @@ module org.example.sudokufpoe {
 
     opens org.example.sudokufpoe to javafx.fxml;
     exports org.example.sudokufpoe;
+    exports org.example.sudokufpoe.controller;
+    opens org.example.sudokufpoe.controller to javafx.fxml;
 }
