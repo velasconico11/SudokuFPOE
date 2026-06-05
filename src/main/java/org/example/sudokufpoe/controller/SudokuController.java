@@ -48,7 +48,7 @@ public class SudokuController {
                 celda.setMaxSize(60, 60);
                 celda.setAlignment(Pos.CENTER);
 
-                // Aquí se llama al método
+                // Aquí se llama al metodo
                 configurarRestriccionEntrada(celda);
 
                 celdas[fila][col] = celda;
