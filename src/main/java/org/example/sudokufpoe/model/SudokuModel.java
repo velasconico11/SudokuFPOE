@@ -6,6 +6,8 @@ import java.util.Random;
 public class SudokuModel {
     // aquí guardo el tablero como lista de filas
     private ArrayList<ArrayList<Integer>> tablero;
+    // aquí guardo cuáles celdas son fijas y no se pueden editar
+    private ArrayList<ArrayList<Boolean>> celdasFijas;
 
     // constructor, aquí arranco el tablero vacío
     public SudokuModel() {
@@ -20,7 +22,15 @@ public class SudokuModel {
             }
             tablero.add(filaLista);
         }
+        celdasFijas = new ArrayList<>();
 
+        for (int fila = 0; fila < 6; fila++) {
+            ArrayList<Boolean> filaLista = new ArrayList<>();
+            for (int col = 0; col < 6; col++) {
+                filaLista.add(false);
+            }
+                celdasFijas.add(filaLista);
+        }
     }
 
     public void generarTablero() {
@@ -38,6 +48,7 @@ public class SudokuModel {
                     int col = bloqCol + random.nextInt(3);   // 0, 1 o 2 dentro del bloque
                     if (esValido(numero, fila, col)) {
                         tablero.get(fila).set(col, numero);
+                        celdasFijas.get(fila).set(col, true);
                         numerosColocados++;
                     }
                 }
@@ -82,11 +93,16 @@ public class SudokuModel {
     public ArrayList<ArrayList<Integer>> getTablero() {
         return tablero;
     }
+    // le digo al controlador si una celda es fija o no
+    public boolean esFija(int fila, int col) {
+        return celdasFijas.get(fila).get(col);
+    }
     // limpio el tablero antes de empezar uno nuevo
     public void limpiarTablero() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
                 tablero.get(fila).set(col, 0);
+                celdasFijas.get(fila).set(col, false);
             }
         }
     }

@@ -90,6 +90,13 @@ public class SudokuController {
                 } else {
                     celdas[fila][col].setText("");
                 }
+                if (modelo.esFija(fila, col)) {
+                    celdas[fila][col].setEditable(false);
+                    celdas[fila][col].setStyle("-fx-background-color: #e0e0e0;"); // gris para las fijas
+                } else {
+                    celdas[fila][col].setEditable(true);
+                    celdas[fila][col].setStyle("");
+                }
             }
         }
     }
