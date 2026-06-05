@@ -60,6 +60,7 @@ public class SudokuController {
                 celda.setMinSize(60, 60);
                 celda.setMaxSize(60, 60);
                 celda.setAlignment(Pos.CENTER);
+                celda.setStyle(getEstiloCelda(fila, col));
 
                 // Aquí se llama al metodo
                 configurarRestriccionEntrada(celda);
@@ -80,7 +81,24 @@ public class SudokuController {
             return null; // Rechaza cualquier otra entrada (letras, otros números, etc.)
         }));
     }
+    // le doy el estilo de bordes a cada celda según su posición en el bloque
+    private String getEstiloCelda(int fila, int col) {
+        // bordes normales: arriba, derecha, abajo, izquierda
+        int arriba = 1, derecha = 1, abajo = 1, izquierda = 1;
 
+        // si es la última fila de un bloque, el borde de abajo es grueso
+        if (fila == 1 || fila == 3) {
+            abajo = 3;
+        }
+
+        // si es la última columna del bloque izquierdo, el borde derecho es grueso
+        if (col == 2) {
+            derecha = 3;
+        }
+
+        return "-fx-border-color: black; -fx-border-width: "
+                + arriba + " " + derecha + " " + abajo + " " + izquierda + ";";
+    }
     private void mostrarTablero() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
@@ -92,10 +110,10 @@ public class SudokuController {
                 }
                 if (modelo.esFija(fila, col)) {
                     celdas[fila][col].setEditable(false);
-                    celdas[fila][col].setStyle("-fx-background-color: #e0e0e0;"); // gris para las fijas
+                    celdas[fila][col].setStyle(getEstiloCelda(fila, col) + "-fx-background-color: #e0e0e0;");
                 } else {
                     celdas[fila][col].setEditable(true);
-                    celdas[fila][col].setStyle("");
+                    celdas[fila][col].setStyle(getEstiloCelda(fila, col));
                 }
             }
         }
