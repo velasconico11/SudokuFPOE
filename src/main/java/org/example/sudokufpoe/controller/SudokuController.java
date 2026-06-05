@@ -9,6 +9,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import org.example.sudokufpoe.model.SudokuModel;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
 
 public class SudokuController {
 
@@ -19,9 +22,18 @@ public class SudokuController {
 
     @FXML
     public void handleJugar() {
-        modelo.limpiarTablero();
-        modelo.generarTablero();
-        mostrarTablero();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Nuevo juego");
+        alert.setHeaderText("¿Estás seguro?");
+        alert.setContentText("Se va a iniciar un nuevo juego y perderás el progreso actual.");
+
+        // espero la respuesta del usuario
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            modelo.limpiarTablero();
+            modelo.generarTablero();
+            mostrarTablero();
+        }
     }
 
     private TextField[][] celdas = new TextField[6][6];
