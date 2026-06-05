@@ -68,6 +68,7 @@ public class SudokuModel {
             }
         }
 
+
         // reviso que no esté repetido en la columna
         for (int f = 0; f < 6; f++) {
             if (tablero.get(f).get(col) == numero) {
@@ -89,6 +90,38 @@ public class SudokuModel {
         }
 
         return true; // pasó todas las revisiones, es válido
+    }
+    // valido el número que ingresa el jugador sin revisar si la celda está ocupada
+    public boolean esValidoJugador(int numero, int fila, int col) {
+
+        // reviso que no esté repetido en la fila
+        for (int c = 0; c < 6; c++) {
+            if (c != col && tablero.get(fila).get(c) == numero) {
+                return false; // ya está en la fila
+            }
+        }
+
+        // reviso que no esté repetido en la columna
+        for (int f = 0; f < 6; f++) {
+            if (f != fila && tablero.get(f).get(col) == numero) {
+                return false; // ya está en la columna
+            }
+        }
+
+        // encuentro donde empieza el bloque 2x3
+        int inicioBloqFila = (fila / 2) * 2;
+        int inicioBloqCol = (col / 3) * 3;
+
+        // reviso que no esté repetido en el bloque
+        for (int f = inicioBloqFila; f < inicioBloqFila + 2; f++) {
+            for (int c = inicioBloqCol; c < inicioBloqCol + 3; c++) {
+                if (f != fila && c != col && tablero.get(f).get(c) == numero) {
+                    return false; // ya está en el bloque
+                }
+            }
+        }
+
+        return true; // es válido
     }
     public ArrayList<ArrayList<Integer>> getTablero() {
         return tablero;

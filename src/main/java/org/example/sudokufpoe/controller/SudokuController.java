@@ -61,6 +61,25 @@ public class SudokuController {
                 celda.setMaxSize(60, 60);
                 celda.setAlignment(Pos.CENTER);
                 celda.setStyle(getEstiloCelda(fila, col));
+                final int f = fila;
+                final int c = col;
+                celda.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue.isEmpty()) {
+                        // si borra el número, restauro el estilo normal
+                        celdas[f][c].setStyle(getEstiloCelda(f, c));
+                        modelo.getTablero().get(f).set(c, 0);
+                    } else {
+                        int numero = Integer.parseInt(newValue);
+                        if (modelo.esValidoJugador(numero, f, c)) {
+                            // número válido, estilo normal
+                            celdas[f][c].setStyle(getEstiloCelda(f, c));
+                            modelo.getTablero().get(f).set(c, numero);
+                        } else {
+                            // número inválido, borde rojo
+                            celdas[f][c].setStyle(getEstiloCelda(f, c) + "-fx-border-color: red;");
+                        }
+                    }
+                });
 
                 // Aquí se llama al metodo
                 configurarRestriccionEntrada(celda);
