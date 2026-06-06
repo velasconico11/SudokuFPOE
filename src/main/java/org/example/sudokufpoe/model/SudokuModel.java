@@ -7,7 +7,7 @@ import java.util.Random;
  * Modelo del juego Sudoku 6x6.
  * Contiene la lógica del tablero, validación, y generación del puzzle.
  */
-public class SudokuModel {
+public class SudokuModel implements ISudoku {
     // aquí guardo el tablero como lista de filas
     private ArrayList<ArrayList<Integer>> tablero;
     // aquí guardo cuáles celdas son fijas y no se pueden editar
