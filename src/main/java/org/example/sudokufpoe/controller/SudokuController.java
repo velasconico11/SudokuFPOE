@@ -127,8 +127,11 @@ public class SudokuController {
             derecha = 3;
         }
 
-        return "-fx-border-color: black; -fx-border-width: "
-                + arriba + " " + derecha + " " + abajo + " " + izquierda + ";";
+        return "-fx-border-color: black; "
+                + "-fx-border-width: " + arriba + " " + derecha + " " + abajo + " " + izquierda + ";"
+                + "-fx-font-size: 18px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-color: white;";
     }
     private void mostrarTablero() {
         for (int fila = 0; fila < 6; fila++) {
@@ -141,7 +144,7 @@ public class SudokuController {
                 }
                 if (modelo.esFija(fila, col)) {
                     celdas[fila][col].setEditable(false);
-                    celdas[fila][col].setStyle(getEstiloCelda(fila, col) + "-fx-background-color: #e0e0e0;");
+                    celdas[fila][col].setStyle(getEstiloCelda(fila, col) + "-fx-background-color: #d9edf7;");
                 } else {
                     celdas[fila][col].setEditable(true);
                     celdas[fila][col].setStyle(getEstiloCelda(fila, col));
