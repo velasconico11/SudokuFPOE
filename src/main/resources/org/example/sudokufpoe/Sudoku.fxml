@@ -35,10 +35,10 @@
         </Label>
     </top>
     <bottom>
-        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="100.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnJugar" mnemonicParsing="false" onAction="#handleJugar" text="JUGAR" />
-                <Button fx:id="btnAyuda" mnemonicParsing="false" onAction="#handleAyuda" text="AYUDA" />
+                <Button fx:id="btnJugar" mnemonicParsing="false" onAction="#handleJugar" prefHeight="40.0" prefWidth="120.0" text="JUGAR" />
+                <Button fx:id="btnAyuda" mnemonicParsing="false" onAction="#handleAyuda" prefHeight="40.0" prefWidth="120.0" text="AYUDA" />
             </children>
         </HBox>
     </bottom>
