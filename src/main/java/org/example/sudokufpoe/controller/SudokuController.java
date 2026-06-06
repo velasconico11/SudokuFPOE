@@ -13,6 +13,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
+/**
+ * Controlador principal del juego Sudoku.
+ * Gestiona la interfaz gráfica y los eventos del usuario.
+ */
 public class SudokuController {
 
     @FXML
@@ -22,6 +26,10 @@ public class SudokuController {
     @FXML
     private Button btnAyuda;
 
+    /**
+     * Maneja el evento del botón Jugar.
+     * Muestra una alerta de confirmación e inicia un nuevo tablero si el usuario acepta.
+     */
     @FXML
     public void handleJugar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -38,7 +46,10 @@ public class SudokuController {
             mostrarTablero();
         }
     }
-
+    /**
+     * Maneja el evento del botón Ayuda.
+     * Sugiere un número válido en una celda vacía aleatoria sin resolver el tablero completo.
+     */
     @FXML
     public void handleAyuda() {
         if (!juegoIniciado) {
@@ -68,11 +79,17 @@ public class SudokuController {
     private SudokuModel modelo = new SudokuModel();
     private boolean juegoIniciado = false;
 
+    /**
+     * Inicializa el controlador y crea el tablero visual al cargar la interfaz.
+     */
     @FXML
     public void initialize() {
         crearTableroVisual();
     }
-
+    /**
+     * Crea el tablero visual de 6x6 con sus celdas de texto
+     * y configura los eventos de entrada para cada celda.
+     */
     private void crearTableroVisual() {
         gridSudoku.getColumnConstraints().clear();
         gridSudoku.getRowConstraints().clear();
@@ -130,7 +147,11 @@ public class SudokuController {
             }
         }
     }
-
+    /**
+     * Configura la restricción de entrada de una celda
+     * para que solo acepte números del 1 al 6.
+     * @param celda el campo de texto a configurar
+     */
     private void configurarRestriccionEntrada(TextField celda) {
         celda.setTextFormatter(new TextFormatter<>(change -> {
             String nuevoTexto = change.getControlNewText();
@@ -141,7 +162,13 @@ public class SudokuController {
             return null; // Rechaza cualquier otra entrada (letras, otros números, etc.)
         }));
     }
-    // le doy el estilo de bordes a cada celda según su posición en el bloque
+    /**
+     * Retorna el estilo CSS de una celda según su posición en el tablero,
+     * aplicando bordes gruesos para separar los bloques 2x3.
+     * @param fila la fila de la celda
+     * @param col la columna de la celda
+     * @return cadena con el estilo CSS de la celda
+     */
     private String getEstiloCelda(int fila, int col) {
         // bordes normales: arriba, derecha, abajo, izquierda
         int arriba = 1, derecha = 1, abajo = 1, izquierda = 1;
@@ -162,6 +189,10 @@ public class SudokuController {
                 + "-fx-font-weight: bold;"
                 + "-fx-background-color: white;";
     }
+    /**
+     * Muestra el tablero actual en la interfaz gráfica,
+     * marcando las celdas fijas como no editables.
+     */
     private void mostrarTablero() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {

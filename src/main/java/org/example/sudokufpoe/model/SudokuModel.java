@@ -3,6 +3,10 @@ package org.example.sudokufpoe.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Modelo del juego Sudoku 6x6.
+ * Contiene la lógica del tablero, validación, y generación del puzzle.
+ */
 public class SudokuModel {
     // aquí guardo el tablero como lista de filas
     private ArrayList<ArrayList<Integer>> tablero;
@@ -10,7 +14,9 @@ public class SudokuModel {
     private ArrayList<ArrayList<Boolean>> celdasFijas;
     private ArrayList<ArrayList<Integer>> solucion;
 
-    // constructor, aquí arranco el tablero vacío
+    /**
+     * Constructor que inicia el tablero, las celdas fijas y la solución vacíos.
+     */
     public SudokuModel() {
         tablero = new ArrayList<>();
 
@@ -41,6 +47,11 @@ public class SudokuModel {
             solucion.add(filaLista);
         }
     }
+    /**
+     * Resuelve el tablero completo probando números uno a uno.
+     * Si un número no funciona, regresa y prueba otro hasta encontrar la solución.
+     * @return true si encontró una solución, false si no
+     */
     private boolean resolverTablero() {
         Random random = new Random();
         for (int fila = 0; fila < 6; fila++) {
@@ -64,7 +75,14 @@ public class SudokuModel {
         }
         return true;
     }
-    // reviso si el número es válido en la solución
+    /**
+     * Verifica si un número es válido en la solución sin repetirse
+     * en la misma fila, columna o bloque 2x3.
+     * @param numero el número a verificar
+     * @param fila la fila de la celda
+     * @param col la columna de la celda
+     * @return true si el número es válido, false si no
+     */
     private boolean esValidoEnSolucion(int numero, int fila, int col) {
         for (int c = 0; c < 6; c++) {
             if (solucion.get(fila).get(c) == numero) return false;
@@ -81,10 +99,13 @@ public class SudokuModel {
         }
         return true;
     }
+    /**
+     * Genera un tablero nuevo colocando 2 números por cada bloque 2x3
+     * tomados de la solución completa.
+     */
     public void generarTablero() {
         // primero resuelvo el tablero completo
         resolverTablero();
-
         // luego copio 2 números por bloque de la solución al tablero
         Random random = new Random();
         for (int bloqFila = 0; bloqFila < 6; bloqFila += 2) {
@@ -104,7 +125,14 @@ public class SudokuModel {
         }
     }
 
-    // reviso si el número se puede poner en esa posición
+    /**
+     * Verifica si un número se puede colocar en una celda vacía
+     * sin repetirse en la misma fila, columna o bloque 2x3.
+     * @param numero el número a verificar
+     * @param fila la fila de la celda
+     * @param col la columna de la celda
+     * @return true si el número es válido, false si no
+     */
     public boolean esValido(int numero, int fila, int col) {
         if (tablero.get(fila).get(col) != 0) {
             return false;
@@ -141,7 +169,15 @@ public class SudokuModel {
         return true; // pasó todas las revisiones, es válido
     }
 
-    // valido el número que ingresa el jugador sin revisar si la celda está ocupada
+    /**
+     * Verifica si el número ingresado por el jugador es válido
+     * sin repetirse en la misma fila, columna o bloque 2x3.
+     * A diferencia de esValido, no revisa si la celda está ocupada.
+     * @param numero el número ingresado por el jugador
+     * @param fila la fila de la celda
+     * @param col la columna de la celda
+     * @return true si el número es válido, false si no
+     */
     public boolean esValidoJugador(int numero, int fila, int col) {
 
         // reviso que no esté repetido en la fila
@@ -173,17 +209,29 @@ public class SudokuModel {
 
         return true; // es válido
     }
-
+    /**
+     * Retorna el tablero actual del juego.
+     * @return tablero como lista de listas de enteros
+     */
     public ArrayList<ArrayList<Integer>> getTablero() {
         return tablero;
     }
 
-    // le digo al controlador si una celda es fija o no
+    /**
+     * Indica si una celda es fija, es decir, fue generada al inicio
+     * y el jugador no puede editarla.
+     * @param fila la fila de la celda
+     * @param col la columna de la celda
+     * @return true si la celda es fija, false si no
+     */
     public boolean esFija(int fila, int col) {
         return celdasFijas.get(fila).get(col);
     }
 
-    // limpio el tablero antes de empezar uno nuevo
+    /**
+     * Limpia el tablero dejando todas las celdas en cero
+     * y quitando las celdas fijas para iniciar un nuevo juego.
+     */
     public void limpiarTablero() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
@@ -192,7 +240,11 @@ public class SudokuModel {
             }
         }
     }
-
+    /**
+     * Busca una celda vacía aleatoria y retorna el número correcto
+     * según la solución generada.
+     * @return arreglo con fila, columna y número sugerido, o null si no hay celdas vacías
+     */
     public int[] darAyuda() {
         // junto todas las celdas vacías
         ArrayList<int[]> vacias = new ArrayList<>();
@@ -214,7 +266,10 @@ public class SudokuModel {
         }
         return null;
     }
-    // cuento cuántas celdas vacías quedan en el tablero
+    /**
+     * Cuenta cuántas celdas vacías quedan en el tablero.
+     * @return número de celdas vacías
+     */
     public int contarCeldasVacias() {
         int contador = 0;
         for (int fila = 0; fila < 6; fila++) {
