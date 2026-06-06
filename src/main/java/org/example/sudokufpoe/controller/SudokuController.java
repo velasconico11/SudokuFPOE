@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
+import org.example.sudokufpoe.model.ISudoku;
 
 /**
  * Controlador principal del juego Sudoku.
@@ -76,7 +77,7 @@ public class SudokuController {
     }
     private TextField[][] celdas = new TextField[6][6];
     // aquí conecto el modelo con el controlador
-    private SudokuModel modelo = new SudokuModel();
+    private ISudoku modelo = new SudokuModel();
     private boolean juegoIniciado = false;
 
     /**
