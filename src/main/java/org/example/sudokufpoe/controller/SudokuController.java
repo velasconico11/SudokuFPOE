@@ -19,6 +19,8 @@ public class SudokuController {
     private GridPane gridSudoku;
     @FXML
     private Button btnJugar;
+    @FXML
+    private Button btnAyuda;
 
     @FXML
     public void handleJugar() {
@@ -30,15 +32,41 @@ public class SudokuController {
         // espero la respuesta del usuario
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            juegoIniciado = true;
             modelo.limpiarTablero();
             modelo.generarTablero();
             mostrarTablero();
         }
     }
 
+    @FXML
+    public void handleAyuda() {
+        if (!juegoIniciado) {
+            return;
+        }
+        if (modelo.contarCeldasVacias() <= 1) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ayuda");
+            alert.setHeaderText(null);
+            alert.setContentText("¡Ya casi terminas, resuelve la última celda tú solo!");
+            alert.showAndWait();
+            return;
+        }
+
+        int[] ayuda = modelo.darAyuda();
+        if (ayuda != null) {
+            int fila = ayuda[0];
+            int col = ayuda[1];
+            int numero = ayuda[2];
+            celdas[fila][col].setText(String.valueOf(numero));
+            celdas[fila][col].setStyle(getEstiloCelda(fila, col) + "-fx-background-color: yellow;");
+            modelo.getTablero().get(fila).set(col, numero);
+        }
+    }
     private TextField[][] celdas = new TextField[6][6];
     // aquí conecto el modelo con el controlador
     private SudokuModel modelo = new SudokuModel();
+    private boolean juegoIniciado = false;
 
     @FXML
     public void initialize() {
@@ -48,6 +76,7 @@ public class SudokuController {
     private void crearTableroVisual() {
         gridSudoku.getColumnConstraints().clear();
         gridSudoku.getRowConstraints().clear();
+        gridSudoku.setMaxSize(360, 360);
 
         for (int i = 0; i < 6; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
