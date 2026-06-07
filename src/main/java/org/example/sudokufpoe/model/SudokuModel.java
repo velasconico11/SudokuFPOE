@@ -230,13 +230,14 @@ public class SudokuModel implements ISudoku {
 
     /**
      * Limpia el tablero dejando todas las celdas en cero
-     * y quitando las celdas fijas para iniciar un nuevo juego.
+     * y quitando las celdas fijas, dejando en cero para iniciar un nuevo juego.
      */
     public void limpiarTablero() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
                 tablero.get(fila).set(col, 0);
                 celdasFijas.get(fila).set(col, false);
+                solucion.get(fila).set(col, 0); // <- aquí
             }
         }
     }
@@ -280,5 +281,20 @@ public class SudokuModel implements ISudoku {
             }
         }
         return contador;
+    }
+
+    /**
+     * Verifica si el tablero está completamente lleno y sin errores.
+     * @return true si el jugador ganó, false si no
+     */
+    public boolean jugadorGano() {
+        for (int fila = 0; fila < 6; fila++) {
+            for (int col = 0; col < 6; col++) {
+                int numero = tablero.get(fila).get(col);
+                if (numero == 0) return false;
+                if (!esValidoJugador(numero, fila, col)) return false;
+            }
+        }
+        return true;
     }
 }

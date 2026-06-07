@@ -29,20 +29,24 @@ public class SudokuController {
 
     /**
      * Maneja el evento del botón Jugar.
-     * Muestra una alerta de confirmación e inicia un nuevo tablero si el usuario acepta.
+     * Si hay un juego en curso muestra una alerta de confirmación.
+     * Si no hay juego en curso inicia uno directamente.
      */
     @FXML
     public void handleJugar() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Nuevo juego");
-        alert.setHeaderText("¿Estás seguro?");
-        alert.setContentText("Se va a iniciar un nuevo juego y perderás el progreso actual.");
-
-        // espero la respuesta del usuario
-        Optional<ButtonType> resultado = alert.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+        if (juegoIniciado) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Nuevo juego");
+            alert.setHeaderText("¿Estás seguro?");
+            alert.setContentText("Se va a iniciar un nuevo juego y perderás el progreso actual.");
+            Optional<ButtonType> resultado = alert.showAndWait();
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                modelo.limpiarTablero();
+                modelo.generarTablero();
+                mostrarTablero();
+            }
+        } else {
             juegoIniciado = true;
-            modelo.limpiarTablero();
             modelo.generarTablero();
             mostrarTablero();
         }
@@ -130,11 +134,21 @@ public class SudokuController {
                     } else {
                         int numero = Integer.parseInt(newValue);
                         if (modelo.esValidoJugador(numero, f, c)) {
-                            // número válido, estilo normal
                             celdas[f][c].setStyle(getEstiloCelda(f, c));
                             modelo.getTablero().get(f).set(c, numero);
+                            if (modelo.jugadorGano()) {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("¡Ganaste!");
+                                alert.setHeaderText("¡Felicitaciones, completaste el Sudoku!");
+                                alert.setContentText("¿Quieres jugar de nuevo?");
+                                Optional<ButtonType> resultado = alert.showAndWait();
+                                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                                    modelo.limpiarTablero();
+                                    modelo.generarTablero();
+                                    mostrarTablero();
+                                }
+                            }
                         } else {
-                            // número inválido, borde rojo
                             celdas[f][c].setStyle(getEstiloCelda(f, c) + "-fx-border-color: red;");
                         }
                     }
